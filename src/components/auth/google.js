@@ -4,7 +4,8 @@ import React, { Component } from 'react';
 
 class GoogleLogin extends Component{
     constructor(props) {
-        super(props)
+        super(props);
+        this.state = {loggedin: false};
     }
     
     componentDidMount(){
@@ -12,7 +13,7 @@ class GoogleLogin extends Component{
             var e = document.createElement("script");
             e.type = "text/javascript";
             e.async = true;
-            e.src = "https://apis.google.com/js/client:platform.js?onload=gPOnLoad";
+            e.src = "https://apis.google.com/js/client:platform.js";
             var t = document.getElementsByTagName("script")[0];
             t.parentNode.insertBefore(e, t);
         })();    
@@ -35,36 +36,11 @@ class GoogleLogin extends Component{
     googleSignInCallback = (e) => {
         console.log('googleSignInCallback');
         console.log( e )
-        /*if (e["status"]["signed_in"]) {
-            window.gapi.client.load("plus", "v1", function() {
-                if (e["access_token"]) {
-                    this.getUserGoogleProfile( e["access_token"] )
-                } else if (e["error"]) {
-                    console.log('Import error', 'Error occured while importing data')
-                }
-            }.bind(this));
+        if (e["status"]["signed_in"]) {
+            
         } else {
             console.log('Oops... Error occured while importing data')
-        }*/
-    }
-
-    getUserGoogleProfile = accesstoken => {
-        var e = window.gapi.client.plus.people.get({
-            userId: "me"
-        });
-        e.execute(function(e) {
-            if (e.error) {
-                console.log(e.message);
-                console.log('Import error - Error occured while importing data')
-                return
-            
-            } else if (e.id) {
-                //Profile data
-                alert("Successfull login from google : "+ e.displayName )
-                console.log( e );
-                return;
-            }
-        }.bind(this));
+        }
     }
     
     render(){
