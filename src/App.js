@@ -7,12 +7,8 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">SpellWith.Me</h1>
+          <img src={process.env.PUBLIC_URL + '/images/SpellWithMe_logo_md.jpg'}  className="App-logo" alt="SpellWith.Me" />
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
       </div>
     );
   }
