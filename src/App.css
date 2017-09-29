@@ -29,3 +29,8 @@
   font-size: large;
 }
 
+.g-signin2 {
+    display: table;
+    margin: 0 auto;
+    margin-top: 30%;
+}
