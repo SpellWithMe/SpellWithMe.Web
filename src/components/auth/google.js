@@ -1,11 +1,15 @@
-import React, { Component } from 'react';
+import React, {Component, PropTypes} from 'react';
+import {bindActionCreators} from 'redux';  
+import {connect} from 'react-redux'; 
 
-//import config from '../google.config';
+import * as sessionActions from '../../actions/sessionActions';
+import config from '../../google.config';
 
-class GoogleLogin extends Component{
+class GoogleLogin extends React.Component{
     constructor(props) {
         super(props);
-        this.state = {loggedin: false};
+        this.state = {credentials: {token: ''}};
+        this.googleLogin = this.googleLogin.bind(this);
     }
     
     componentDidMount(){
@@ -20,14 +24,14 @@ class GoogleLogin extends Component{
     }
     
     //Triggering login for google
-    googleLogin = () => {
-        console.log('googleLogin');
+    googleLogin(event) {
+        event.preventDefault();
         let response = null;
         window.gapi.auth.signIn({
             callback: function(authResponse) {
                 this.googleSignInCallback( authResponse )
             }.bind( this ),
-            clientid: '186009652982-3r4j019r0booqvbbsevd9vflephdfaut.apps.googleusercontent.com', //Google client Id
+            clientid: config.clientid,
             cookiepolicy: "single_host_origin",
             scope: "https://www.googleapis.com/auth/plus.login email"
         });
@@ -37,7 +41,11 @@ class GoogleLogin extends Component{
         console.log('googleSignInCallback');
         console.log( e )
         if (e["status"]["signed_in"]) {
-            
+            const credentials = this.state.credentials;
+            credentials.token = e.id_token;
+            console.log(this.props.actions);
+            this.setState({credentials: credentials});
+            this.props.actions.logInUser(this.state.credentials);
         } else {
             console.log('Oops... Error occured while importing data')
         }
@@ -45,9 +53,15 @@ class GoogleLogin extends Component{
     
     render(){
         return(
-            <div className="g-signin2"  id="my-signin2" onClick={ () => this.googleLogin() }></div>
+            <div className="g-signin2"  id="my-signin2" onClick={ this.googleLogin }></div>
         )
     }
 }
 
-export default GoogleLogin;
+function mapDispatchToProps(dispatch) {  
+  return {
+    actions: bindActionCreators(sessionActions, dispatch)
+  };
+}
+
+export default connect(null, mapDispatchToProps)(GoogleLogin);
