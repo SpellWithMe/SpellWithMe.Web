@@ -3,12 +3,12 @@ import { Router, Route, Switch } from 'react-router-dom'
 import { Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import GoogleLogin from './components/auth/googleLogin';
 import SpellingList from './components/spelling/spellingList';
-import createHashHistory from 'history/createBrowserHistory';
+import createBrowserHistory from 'history/createBrowserHistory';
 import configureStore from './store/config';
 import { Provider } from 'react-redux';
 import './App.css';
 
-const history = createHashHistory();
+const history = createBrowserHistory();
 
 const store = configureStore();
 
